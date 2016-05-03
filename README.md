@@ -5,6 +5,7 @@
 The super n-motifs model computes dissimilarities between RNA secondary structures (SS) based on super n-motifs representation. It takes as input SSs in vienna/db format. It provides various ouputs, in csv format, (see -p parameter) such as the dissimilarity matrix i.e. the SS\*SS dissimilarity matrix (matDissim_SSbySS.csv) and others such as the matrix representing the super n-motifs representation of SS i.e. the SS\*super n-motifs matrix (matSnmRep_SSbySnm.csv), etc.
 
 ### How to run the super n-motifs program ###
+The compilation of the super n-motifs model requires the installation of the boost library (http://www.boost.org/).
 
 Usage:
 
@@ -15,14 +16,9 @@ Examples :
 * Execute super n-motifs in command line
 
   ./pathOfSupernmotifsProgram/supernmotifs -i /PathtoDbFile
-  -o /OutputDirectoryPath/ -s 15
-  
-* Switch the graphical user interface
+  -o /OutputDirectoryPath/
 
-  ./pathOfSupernmotifsprogram/super_n-motifs -w 1
-  
-
-Important note:
+Important notes:
 
 * Circular RNA 
 
@@ -31,18 +27,15 @@ Important note:
    
 * Pseudoknots and Gquadruplexes
 
-  Special characters '{}','<>','[]', and alphabets such as 'Aa','Bb','Zz' are used to represent base pairs involved in pseudoknots. '+' is used to represent each guanine involved in the Gquadraplexes formation.
+  Special characters '{}','<>','[]', and alphabets such as 'Aa','Bb','Zz' 
+  are used to represent base pairs involved in pseudoknots. '+' is used to 
+  represent each guanine involved in the Gquadraplexes formation.
 
 ### Parameters ###
-
 
   -h 	
 		 	
 	Print help and exit the program.
-	
-  -w 	
-		 	
-	Switch to the graphical user interface (GUI). Type -w 1 to activate the GUI. (default: -w 0)
 	
   -i [input vienna file]  
   
@@ -66,7 +59,8 @@ Important note:
   -s [s>=2]
 	
     Specify  the number of super n-motifs. 
-    (default : -s 15)
+    (default : -s 0 for automatic determination of the number of 
+    super n-motifs using the brocken stick model)
 
   -m [m>=0]	
 	
@@ -79,21 +73,19 @@ Important note:
     
      Specify the output options. 
      (default: -p 0)
-     '-p 0' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv) 
+     '-p 0' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv)
+     and some statistics (stat.csv)
      '-p 1' to output the SS*super n-motifs matrix that is the super n-motif
-     representation of SS (matSnmRep_SSbySnm.csv),
+     representation of SS (matSnmRep_SSbySnm.csv)
      '-p 2' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv),
      the SS*n-motifs dissimilarity matrix (matDissim_SSbynm.csv), the 
      SS*supern-motifs matrix that is the super n-motif representation of SS
      (matSnmRep_SSbySnm.csv), the n-motifs*super n-motifs matrix that is the 	
      super n-motifs representation of n-motifs (matSnmRep_nmbySnm.csv),
+     the singular values (singularValuesFull_supernmotifs.csv) and the matrix
+     associating with each n-motifs its position in each SS (matnmPos.csv)
      '-p 3' to output the SS*SS dissimilarity matrix based on the n-motif 
-     representation (matDissimNmotifsBased_SSbySS.csv),
+     representation (matDissimNmotifsBased_SSbySS.csv)
      '-p 4' to output the SS*n-motifs matrix that is the n-motif representation 
-     of SS (matNmRep_SSbyNm.csv), or 5 to get all outputs with their full 
-     version including the singular values associated with the super n-motifs 
-     (singularValues_supernmotifs.csv)
-     '-p 5' to get all outputs with their full version including 
-     the singular values associated with the super n-motifs 
-     (singularValues_supernmotifs.csv) and  some statistics 
-     (raw nb. n-motifs, nb. n-motifs etc.) (stat.csv).
+     of SS (matNmRep_SSbyNm.csv)
+     '-p 5' to get all outputs including the full version of all the matrices 
