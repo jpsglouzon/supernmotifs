@@ -1,7 +1,6 @@
 //============================================================================
 // Name        : Supernmotifs program
 // Author      : Jean-Pierre Sehi Glouzon
-// Version     : 0.1
 // Copyright   : GNU/GPL
 // Description : Supernmotifs algorithm in C++, Ansi-style
 //============================================================================
@@ -49,6 +48,7 @@ void writeMatDissimS2NM(const vector<string>, const Eigen::ArrayXXf, map<string,
 void writeSingularVal(const Eigen::RowVectorXf,const string ,const string );
 void writeMatNmotifsPositionsInSS(const vector<string> , vector< map<string,vector<int>> > , map<string,float>  ,const string , const string );
 void writeStat(const vector<string>,map<string,float>,map<string,float>,const string, const string, const int,const Eigen::ArrayXXf );
+string help();
 
 int main(int argc, char *argv[])
 {
@@ -60,7 +60,6 @@ int main(int argc, char *argv[])
 
     clock_t t1,t2,t3,t4;
     t1=clock();t2=clock();t3=clock();t4=clock();
-
 
     //Extract n-motifs.
     cout<<endl<<"Extract n-motifs..."<<endl;
@@ -252,8 +251,10 @@ void initParameters(string& i_PathFileInput,string& o_PathDirOutput, int& p_outp
 void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathDirOutput,int& p_outputOption, int& nbSupNmotifs,int& maxLevelNmotifs, float& minOcc, int& ngram){
 
     ifstream viennaFile;
-    string filename="helpTerminal.txt";
-    ifstream helpFile (filename.c_str());
+    //string filename="helpTerminal.txt";
+    //string filename="README.md";
+
+    //ifstream helpFile (filename.c_str());
 
     string lineHelpFile;
     bool paramRequiredinput=false;
@@ -381,13 +382,15 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
 
               break;
             case 'h': //print help and exit the program
-                  if (helpFile.is_open())
-                  {
-                    while ( getline (helpFile,lineHelpFile) )
-                    { cout << lineHelpFile << '\n';}
-                    helpFile.close();
-                  }
-                  else cout << "Unable to open file"<<endl;
+                  //if (helpFile.is_open())
+                  //{
+                  //  while ( getline (helpFile,lineHelpFile) )
+                  //  { cout << lineHelpFile << '\n';}
+                  //  helpFile.close();
+                  //}
+                  //else cout << "Unable to open file"<<endl;
+                  cout<< help();
+
                 exit(EXIT_SUCCESS);
               break;
             default:
@@ -678,6 +681,8 @@ void writeStat(const vector<string> headers, map<string, float> allStructureFeat
     if (nbSupNmotifs==0)
    {
        outputMatMotifs<<"Nb. of Structures, Raw nb. of nmotifs, Nb. of relevant n-motifs, Nb. of automatically determined super-n-motifs "<<endl;
+
+
        outputMatMotifs<<headers.size()<<", "<<allStructureFeature.size()<<", "<<allStructureFeatureForWeigthOfMotifs.size()<<", "<<repSupernmotif.cols()<<endl;
    }
    else{
@@ -685,6 +690,98 @@ void writeStat(const vector<string> headers, map<string, float> allStructureFeat
        outputMatMotifs<<headers.size()<<", "<<allStructureFeature.size()<<", "<<allStructureFeatureForWeigthOfMotifs.size()<<", "<<repSupernmotif.cols()<<endl;
    }
 
-
     outputMatMotifs.close();
+}
+
+string help()
+{
+    //From README.md
+    string help;
+
+    help=
+"\n### Super n-motifs model ###\n"
+"Usage:\n"
+"\n"
+"* supernmotifs [Parameters]...\n"
+"\n"
+"Examples :\n"
+"\n"
+"* Execute super n-motifs in command line\n"
+"\n"
+"  ./pathOfSupernmotifsProgram/supernmotifs -i /PathtoDbFile\n"
+"  -o /OutputDirectoryPath/\n"
+"\n"
+"Important notes:\n"
+"\n"
+"* Circular RNA\n"
+"\n"
+"  For the processing of secondary structures of circular RNA, adding 'c_'\n"
+"   at the beginning of the header of each circular RNA is required.\n"
+"\n"
+"* Pseudoknots and Gquadruplexes\n"
+"\n"
+"  Special characters '{}','<>','[]', and alphabets such as 'Aa','Bb','Zz'\n"
+"  are used to represent base pairs involved in pseudoknots. '+' is used to\n"
+"  represent each guanine involved in the Gquadraplexes formation.\n"
+"\n"
+"### Parameters ###\n"
+"\n"
+"  -h\n"
+"\n"
+"	Print help and exit the program.\n"
+"\n"
+"  -i [input vienna file]\n"
+"\n"
+"    Input file of RSS in vienna/db format (required).\n"
+"    >strucID\n"
+"    AAAAAUU\n"
+"    ((...))\n"
+"\n"
+"  -o [output folder]\n"
+"\n"
+"    Results folder (required).\n"
+"\n"
+"  -l [0|1|2]\n"
+"\n"
+"    Specify the maximum level of n-motifs used to\n"
+"    extract the n-motifs. It must be 0, 1 or 2. For instance: when\n"
+"    it is set to 0, 0-motifs will be extracted. When it is set\n"
+"    to 1, 0-motifs and 1-motifs will be extracted. etc.\n"
+"    (default : -l 1)v"
+"\n"
+"  -s [s>=2]\n"
+"\n"
+"    Specify  the number of super n-motifs.\n"
+"    (default : -s 0 for automatic determination of the number of\n"
+"    super n-motifs using the brocken stick model)\n"
+"\n"
+"  -m [m>=0]\n"
+"\n"
+"    Specify the minimum occurrence of n-motifs. N-motifs with occurrence\n"
+"    below the minimum occurrence are removed. When it is set to 0,\n"
+"    it computes the automatic n-motif minimum occurrence.\n"
+"    (default : -m 0)\n"
+"\n"
+"  -p [0|1|2|3|4]\n"
+"\n"
+"     Specify the output options.\n"
+"     (default: -p 0)\n"
+"     '-p 0' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv)\n"
+"     and some statistics (stat.csv)\n"
+"     '-p 1' to output the SS*super n-motifs matrix that is the super n-motif\n"
+"     representation of SS (matSnmRep_SSbySnm.csv)\n"
+"     '-p 2' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv),\n"
+"     the SS*n-motifs dissimilarity matrix (matDissim_SSbynm.csv), the\n"
+"     SS*supern-motifs matrix that is the super n-motif representation of SS\n"
+"     (matSnmRep_SSbySnm.csv), the n-motifs*super n-motifs matrix that is the\n"
+"     super n-motifs representation of n-motifs (matSnmRep_nmbySnm.csv),\n"
+"     the singular values (singularValuesFull_supernmotifs.csv) and the matrix\n"
+"     associating with each n-motifs its position in each SS (matnmPos.csv)\n"
+"     '-p 3' to output the SS*SS dissimilarity matrix based on the n-motif\n"
+"     representation (matDissimNmotifsBased_SSbySS.csv)\n"
+"     '-p 4' to output the SS*n-motifs matrix that is the n-motif representation\n"
+"     of SS (matNmRep_SSbyNm.csv)\n"
+"     '-p 5' to get all outputs including the full version of all the matrices\n\n";
+
+return help;
 }
