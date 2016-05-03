@@ -1,0 +1,98 @@
+﻿
+ Super n-motifs program.
+
+  It computes dissimilarities between RNA secondary structures (SS) based 
+  on super n-motifs representation. It takes as input SS in vienna/db 
+  format. It provides various ouputs, in csv format, (see -p parameter) 
+  such as the dissimilarity matrix i.e. the SS*SS dissimilarity matrix 
+  (matDissim_SSbySS.csv) and others such as the matrix representing 
+  the super n-motifs representation of SS i.e. the SS*super n-motifs 
+  matrix (matSnmRep_SSbySnm.csv), etc.
+
+ Usage : 
+
+  supernmotifs [Parameters]...	
+
+ Examples : 
+
+  Execute super n-motifs in command line
+
+  ./pathOfSupernmotifsProgram/supernmotifs -i /PathtoDbFile
+  -o /OutputDirectoryPath/ -k 15
+  
+  Switch to the graphical user interface
+
+  ./pathOfSupernmotifsprogram/supernmotifs -w 1
+	
+ Important note:
+ 
+  Circular RNA 
+  
+ 	For the processing of secondary structures from circular RNA, 
+	adding 'c_' at the beginning of the header of each 
+	circular RNA is required.		
+	
+  Pseudoknots and Gquadruplexes
+
+	Special characters '{}','<>','[]', and alphabet characters such as 
+	'Aa','Bb',...,'Zz' are used to represent base pairs involved 
+	in pseudoknots. '+' is used to represent each guanine involved 
+	in the Gquadraplexes formation.
+ 
+ Parameters : 
+
+  -h 	
+		 	
+	Print help and exit the program.
+	
+  -w 	
+		 	
+	Switch to the graphical user interface (GUI). 
+	Type -w 1 to activate the GUI. (default: -w 0)
+	
+  -i [input vienna file]  
+ 	
+	Input file of RSS in vienna/db format (required).
+	>strucID
+	AAAAAUU
+	((...))
+
+  -o [output folder] 	
+ 	
+	Results folder (required).
+
+  -l [0|1|2] 
+	
+	Specify  the maximum level of n-motifs used to 
+	extract the n-motifs. It must be 0, 1 or 2. For instance: when 
+	it is set to 0, 0-motifs will be extracted. When it is set 
+	to 1, 0-motifs and 1-motifs will be extracted. etc.
+	(default : -l 1)
+
+  -s [s>=2]
+	
+	Specify  the number of super n-motifs. 
+	(default : -s 15)
+
+  -m [m>=0]	
+	
+	Specify the minimum occurrence of n-motifs. N-motifs with occurrence
+	below the minimum occurrence are removed. When it is set to 0, 
+	it computes the automatic n-motif minimum occurrence. 
+	(default : -m 0)
+
+  -p [0|1|2|3|4]	
+
+	Specify the output options. 
+	(default: -p 0)
+	'-p 0' to output the SS*SS dissimilarity matrix (matDissim_SSbySS.csv) 
+	'-p 1' to output the SS*super n-motifs matrix that is the super n-motif
+	 representation of SS (matSnmRep_SSbySnm.csv),
+	'-p 2' to output SS*SS dissimilarity matrix based on the n-motif 
+	representation (matDissimNmotifsBased_SSbySS.csv), 
+	'-p 3' to output SS*n-motifs matrix that is the n-motif 
+	representation of SS (matNmRep_SSbyNm.csv),
+	'-p 4' to get all outputs with their full version including 
+	the singular values associated with the super n-motifs 
+	(singularValues_supernmotifs.csv) and  some statistics 
+	(raw nb. n-motifs, nb. n-motifs etc.) (stat.csv).
