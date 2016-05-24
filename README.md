@@ -48,15 +48,15 @@ Important notes:
   
     Results folder (required).
 
-  -l [0|1|2] 
+  -n [0|1|2] 
   
     Specify the maximum level of n-motifs used to 
     extract the n-motifs. It must be 0, 1 or 2. For instance: when 
     it is set to 0, 0-motifs will be extracted. When it is set 
     to 1, 0-motifs and 1-motifs will be extracted. etc.
-    (default : -l 1)
+    (default : -n 1)
 
-  -s [s>=2]
+  -s [s=0|s>=2]
 	
     Specify  the number of super n-motifs. 
     (default : -s 0 for automatic determination of the number of 
@@ -68,6 +68,11 @@ Important notes:
     below the minimum occurrence are removed. When it is set to 0, 
     it computes the automatic n-motif minimum occurrence. 
     (default : -m 0)
+
+  -g [0|1|2|3|4|5]
+
+    Specify the length of sequence patterns (ngrams).
+    (default : -g 0)
 
   -p [0|1|2|3|4]	
     
