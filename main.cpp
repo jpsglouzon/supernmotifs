@@ -325,18 +325,18 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
                                            "and  some statistics (raw nb. n-motifs, nb. n-motifs etc.) (stat.csv).");}
               break;
 
-            case 'l':
+            case 'n':
                 if (argv[i+1]!=nullptr)
                 {
                     maxLevelNmotifs=stoi(argv[i+1]);
                     if (!(maxLevelNmotifs==0)&&!(maxLevelNmotifs==1)&& !(maxLevelNmotifs==2))
-                    {throw invalid_argument("Maximum level of n-motifs parameter (-l) is used to extract the n-motifs. It must be 0, 1 or 2. "
+                    {throw invalid_argument("Maximum level of n-motifs parameter (-n) is used to extract the n-motifs. It must be 0, 1 or 2. "
                                             "For instance: when it is set to 0, 0-motifs will be extracted. "
                                             "when it is set to 1, 0-motifs and 1-motifs will be extracted. etc.");}
                 }
                 else
-                {   throw invalid_argument("Empty value for parameter -l. "
-                                           "The maximum level of n-motifs parameter (-l) is used to extract the n-motifs. It must be 0, 1 or 2."
+                {   throw invalid_argument("Empty value for parameter -n. "
+                                           "The maximum level of n-motifs parameter (-n) is used to extract the n-motifs. It must be 0, 1 or 2."
                                            "For instance: when it is set to 0, 0-motifs will be extracted. "
                                            "when it is set to 1, 0-motifs and 1-motifs will be extracted. etc.");};
               break;
@@ -369,16 +369,16 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
                                            "When it is set to 0, it computes the automatic n-motif minimum occurrence.");};
 
               break;
-            case 'n':
+            case 'g':
                 if (argv[i+1]!=nullptr)
                 {
                     ngram=stoi(argv[i+1]);
                     if (!(ngram==0) && !(ngram==1) && !(ngram==2)&& !(ngram==3)&& !(ngram==4)&& !(ngram==5))
-                    {throw invalid_argument("Ngram parameter (-n) must be : 0, 1, 2 , 3, 4 or 5.");}
+                    {throw invalid_argument("Ngram parameter (-g) must be : 0, 1, 2 , 3, 4 or 5.");}
                 }
                 else
-                {   throw invalid_argument("Empty value for parameter -n. "
-                                           "Ngram parameter (-n) must be : 0, 1, 2 , 3, 4 or 5.");};
+                {   throw invalid_argument("Empty value for parameter -g. "
+                                           "Ngram parameter (-g) must be : 0, 1, 2 , 3, 4 or 5.");};
 
               break;
             case 'h': //print help and exit the program
@@ -398,7 +398,7 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
                 exit(EXIT_FAILURE);
             break;
             }
-            if ((argv[i][1]!='h')&&(argv[i][1]!='i')&&(argv[i][1]!='o')&&(argv[i][1]!='p')&&(argv[i][1]!='l')&&(argv[i][1]!='s')&&(argv[i][1]!='m')&&(argv[i][1]!='n'))
+            if ((argv[i][1]!='h')&&(argv[i][1]!='i')&&(argv[i][1]!='o')&&(argv[i][1]!='p')&&(argv[i][1]!='n')&&(argv[i][1]!='s')&&(argv[i][1]!='m')&&(argv[i][1]!='g'))
             {cerr<<"Wrong parameters. Please check parameter list in the help (-h).";exit(EXIT_FAILURE);}
         }
     }
@@ -741,13 +741,13 @@ string help()
 "\n"
 "    Results folder (required).\n"
 "\n"
-"  -l [0|1|2]\n"
+"  -n [0|1|2]\n"
 "\n"
 "    Specify the maximum level of n-motifs used to\n"
 "    extract the n-motifs. It must be 0, 1 or 2. For instance: when\n"
 "    it is set to 0, 0-motifs will be extracted. When it is set\n"
 "    to 1, 0-motifs and 1-motifs will be extracted. etc.\n"
-"    (default : -l 1)v"
+"    (default : -n 1)\n"
 "\n"
 "  -s [s>=2]\n"
 "\n"
@@ -761,6 +761,11 @@ string help()
 "    below the minimum occurrence are removed. When it is set to 0,\n"
 "    it computes the automatic n-motif minimum occurrence.\n"
 "    (default : -m 0)\n"
+"\n"
+"  -g \n"
+"\n"
+"    Specify the ngram parameter (-g) must be : 0, 1, 2 , 3, 4 or 5.\n"
+"    (default : -g 0)\n"
 "\n"
 "  -p [0|1|2|3|4]\n"
 "\n"
