@@ -8,7 +8,7 @@ Download **[here](https://github.com/jpsglouzon/supernmotifs/releases)** the exe
 
 The compilation of the super-n-motifs model requires the installation of the boost library (http://www.boost.org/). 
 
-Optimization flag (-O1, -O2 or -o3) must be turn on.
+Optimization flag (-O3) must be turn on.
 
 ## Usage ##
 
