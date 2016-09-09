@@ -89,12 +89,41 @@ RepSupernmotif::RepSupernmotif(Eigen::ArrayXXf matALLMotifWeigthed,int nbSupNmot
 
             //*******compute SVD*************************//
             Eigen::JacobiSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU | Eigen::ComputeThinV);
-            //Eigen::BDCSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU);
-            matS_supernmotifs=svd.matrixU().leftCols(nbSupNmotifs);
-            //singularVal=svd.singularValues().head(nbSupNmotifs);
             singularValFull=svd.singularValues();
-            singularVal=singularValFull.head(nbSupNmotifs);
 
+            //Brocken stick model
+
+            if(nbSupNmotifs==0)
+            {
+                Eigen::RowVectorXf singularVal_precent=singularValFull/singularValFull.sum();
+                Eigen::RowVectorXf brModel=singularValFull;
+                float tempbrModel;
+
+                for(int i=0; i<brModel.size(); i++)
+                {
+                    tempbrModel=0;
+                    for(int j=i; j<brModel.size(); j++)
+                    {
+                        tempbrModel+=1/float(j+1);
+                    }
+                    brModel(i)=tempbrModel/brModel.size();
+                }
+
+                int nbSupNmotifs2=0;
+                while(singularVal_precent(nbSupNmotifs2)>brModel(nbSupNmotifs2))
+                {nbSupNmotifs2++;}
+
+                nbSupNmotifs=nbSupNmotifs2;
+
+                if (nbSupNmotifs<2)
+                {
+                    nbSupNmotifs=2;
+                }
+
+            }
+
+            singularVal=singularValFull.head(nbSupNmotifs);
+            matS_supernmotifs=svd.matrixU().leftCols(nbSupNmotifs);
             matNM_supernmotifs=svd.matrixV().leftCols(nbSupNmotifs);
 
             for(int i=0;i<nbSupNmotifs;i++)
@@ -133,12 +162,43 @@ RepSupernmotif::RepSupernmotif(Eigen::ArrayXXf matALLMotifWeigthed,int nbSupNmot
 
 			//compute SVD//
             Eigen::JacobiSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU | Eigen::ComputeThinV);
-            matS_supernmotifsFull=svd.matrixU();
             singularValFull=svd.singularValues();
+            //Brocken stick model
+            if(nbSupNmotifs==0)
+            {
+                Eigen::RowVectorXf singularVal_precent=singularValFull/singularValFull.sum();
+                Eigen::RowVectorXf brModel=singularValFull;
+                float tempbrModel;
+
+                for(int i=0; i<brModel.size(); i++)
+                {
+                    tempbrModel=0;
+                    for(int j=i; j<brModel.size(); j++)
+                    {
+                        tempbrModel+=1/float(j+1);
+                    }
+                    brModel(i)=tempbrModel/brModel.size();
+                }
+
+                int nbSupNmotifs2=0;
+                while(singularVal_precent(nbSupNmotifs2)>brModel(nbSupNmotifs2))
+                {nbSupNmotifs2++;}
+
+                nbSupNmotifs=nbSupNmotifs2;
+
+                if (nbSupNmotifs<2)
+                {
+                    nbSupNmotifs=2;
+                }
+
+            }
+
+
+            matS_supernmotifsFull=svd.matrixU();
             matNM_supernmotifsFull=svd.matrixV();
 
-            matS_supernmotifs=matS_supernmotifsFull.leftCols(nbSupNmotifs);
             singularVal=singularValFull.head(nbSupNmotifs);
+            matS_supernmotifs=matS_supernmotifsFull.leftCols(nbSupNmotifs);
             matNM_supernmotifs=matNM_supernmotifsFull.leftCols(nbSupNmotifs);;
 
 

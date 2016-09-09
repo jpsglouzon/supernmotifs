@@ -699,7 +699,7 @@ string help()
     string help;
 
     help=
-"\n### Super-n-motifs model ###\n"
+"\n### Super-n-motifs model -- compare RNA secondary structures ###\n"
 "Usage:\n"
 "\n"
 "* supernmotifs [Parameters]...\n"
