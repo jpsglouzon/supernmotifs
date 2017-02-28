@@ -747,8 +747,8 @@ void RepNmotif::grss2motifVect(string currentStructure,
                 if (nbBp > 0) { //Stem
                     posNuc.push_back(*itVertex_current);
                     posNuc1.push_front(*neighbourIt);
-                    //posNuc.pop_back();
-                    //posNuc1.pop_front();
+                    posNuc.pop_back();//cause some bugs
+                    posNuc1.pop_front();//cause some bugs
                     visitedPosVect[*neighbourIt] = true;
 
                     motifFeatTemp << "S";
