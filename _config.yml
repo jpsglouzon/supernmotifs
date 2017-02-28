@@ -1,0 +1,8 @@
+title: Supernmotifs
+description: "The super-n-motifs model: A novel alignment-free approach for representing and comparing RNA secondary structures."
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
