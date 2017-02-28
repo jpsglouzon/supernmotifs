@@ -58,7 +58,7 @@ void RepNmotif::readFileandParseSequenceStructure(string filePath,
 					std::remove_if(tempLineHeader.begin(), tempLineHeader.end(),
 							(int (*)(int))isspace), tempLineHeader.end());
 			headers.push_back(tempLineHeader);
-            //cout<<tempLineHeader<<endl;
+           // cout<<tempLineHeader<<endl;
 			if (first == false) {
 				nb_object = nb_object + 1;
 			}
@@ -90,15 +90,18 @@ void RepNmotif::parseSequenceStructure(string currentStructure,string currentSeq
 
     if (ngram==0)
     {
+
         //Parse Structure
         /*special dot and bracket --> vect of motif*/
         specialCarac2SpecialMotifVect(currentStructure ,
                 onlyG4motifinStruct, currentMotifVect);
+
         if (onlyG4motifinStruct == false)
         /*convert structure to shapiro and compute statistics on rna secondary structure*/
         {
             /*dot and bracket --> rss graph*/
             dbn2Grss(currentStructure, currentGrss);
+
             /*rss graph --> vect of motif*/
             grss2motifVect(currentStructure, currentGrss,
                     currentMotifVect);
@@ -107,37 +110,38 @@ void RepNmotif::parseSequenceStructure(string currentStructure,string currentSeq
         {intersectMotifs(i, currentStructure, currentMotifVect,
                     currentStructureFeature, currentStructureFeatureWithPosNuc,nmotifsAllStructure);
         }
+
     }
     else
     {
         //Parse Sequence
         std::transform(currentSequence.begin(), currentSequence.end(), currentSequence.begin(), ::toupper);
         string tempngram="";
-        int i=2;
-        while (i<=ngram)
+
+        unsigned int j=0;
+        while (j+ngram<=currentSequence.size())
         {
-            unsigned int j=0;
-            while (j+i<=currentSequence.size())
-            {
-             tempngram=currentSequence.substr (j,i);
+         tempngram=currentSequence.substr (j,ngram);
 
-             //if (!(tempngram.find_first_not_of("AUGC")!= string::npos))
-             //{
-             tempngram="_"+tempngram;
-             currentStructureFeature[tempngram]++;
-             nmotifsAllStructure[tempngram]++;
-             //}
+         //if (!(tempngram.find_first_not_of("AUGC")!= string::npos))
+         //{
+         tempngram="_"+tempngram;
+         currentStructureFeature[tempngram]++;
+         nmotifsAllStructure[tempngram]++;
+         //}
 
-             j++;
-            }
-            i++;
+         j++;
         }
+
     }
 
 	//printMapStringInt(currentStructureFeature);
+
 	nmotifsForEachStructure.push_back(currentStructureFeature);
+
 	nmotifsForEachStructureWithPosNucOfnmotifs.push_back(
 			currentStructureFeatureWithPosNuc);
+
 }
 
 /*********************************************************************************/
@@ -743,8 +747,8 @@ void RepNmotif::grss2motifVect(string currentStructure,
                 if (nbBp > 0) { //Stem
                     posNuc.push_back(*itVertex_current);
                     posNuc1.push_front(*neighbourIt);
-                    posNuc.pop_back();
-                    posNuc1.pop_front();
+                    //posNuc.pop_back();
+                    //posNuc1.pop_front();
                     visitedPosVect[*neighbourIt] = true;
 
                     motifFeatTemp << "S";
@@ -755,6 +759,7 @@ void RepNmotif::grss2motifVect(string currentStructure,
                     posNuc.insert( posNuc.end(), posNuc1.begin(), posNuc1.end() );
                     posNuc1.clear();
 					motifCurrent.posNuc = posNuc;
+
 					motifVect.push_back(motifCurrent);
 					initCurrentMotif(motifCurrent);
 					initNbUnpDegBpSideABL1L2L3symLoopPosNuc(nbUnpairedNuc,
@@ -824,6 +829,8 @@ void RepNmotif::grss2motifVect(string currentStructure,
                     posNuc.insert( posNuc.end(), posNuc1.begin(), posNuc1.end() );
                     posNuc1.clear();
 					motifCurrent.posNuc = posNuc;
+
+
 					motifVect.push_back(motifCurrent);
 
                     if (find(posNuc.begin(), posNuc.end(),currentStructure.length() - 1) != posNuc.end())
@@ -1068,7 +1075,10 @@ void RepNmotif::intersectMotifs(int currentNumberOfNeighbor,
 			currentMotif.posNuc = motifVect[i].posNuc;
 
             bool haveNeighbor=false;
+
+
 			while (j < motifVect.size()) {
+
 
                     if ((i != j))
                     {
@@ -1079,7 +1089,9 @@ void RepNmotif::intersectMotifs(int currentNumberOfNeighbor,
                         }
 
                         if ((motifVect[i].posNuc.back()<motifVect[j].posNuc.front())||(motifVect[j].posNuc.back()<motifVect[i].posNuc.front()))
-                        {      j++; continue;}
+                        {
+                            j++; continue;
+                        }
 
                         vector<int> vInterSect(	motifVect[i].posNuc.size()	+ motifVect[j].posNuc.size());
                         it = set_intersection(motifVect[i].posNuc.begin(),motifVect[i].posNuc.end(),motifVect[j].posNuc.begin(),motifVect[j].posNuc.end(), vInterSect.begin());
@@ -1119,10 +1131,6 @@ void RepNmotif::intersectMotifs(int currentNumberOfNeighbor,
 
 			motifVect1.push_back(currentMotif);
             extractFeatFromCurrentMotif(currentMotif, currentStructureFeature,currentStructureFeatureWithPosNuc,nmotifsAllStructure);
-
-			//if (currentMotif.posNuc.size() >= currentStructure.length()) {
-			//	break;
-			//}
 
 			initCurrentMotif(currentMotif);
 			subStringVectForSortedFeat.clear();

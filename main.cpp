@@ -394,7 +394,7 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
                 exit(EXIT_SUCCESS);
               break;
             default:
-                cerr<<"No parameters found. The program requires minimally the input vienna file (-i) and the ouput folder (-o). For help, type -h."<<endl;
+                cerr<<"No parameters found or wrong parameters. Please check parameter list in the help (-h)."<<endl;
                 exit(EXIT_FAILURE);
             break;
             }

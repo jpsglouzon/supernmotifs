@@ -33,6 +33,9 @@ RepSupernmotif::RepSupernmotif(Eigen::ArrayXXf matALLMotifWeigthed,int nbSupNmot
             Eigen::JacobiSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU);
             singularVal=svd.singularValues();
 
+            //RedSVD::RedSVD<Eigen::MatrixXf> randomizedSVD( matALLMotifWeigthed.matrix());//Resvd Test
+            //singularVal=randomizedSVD.singularValues();//Resvd Test
+
             //Brocken stick model
 
             if(nbSupNmotifs==0)
@@ -65,6 +68,8 @@ RepSupernmotif::RepSupernmotif(Eigen::ArrayXXf matALLMotifWeigthed,int nbSupNmot
             }
 
             matS_supernmotifs=svd.matrixU().leftCols(nbSupNmotifs);
+            //matS_supernmotifs=randomizedSVD.matrixU().leftCols(nbSupNmotifs);//Resvd Test
+
             for(int i=0;i<nbSupNmotifs;i++)
 			{matS_supernmotifs.col(i)=matS_supernmotifs.col(i)*(singularVal(i));}
 
