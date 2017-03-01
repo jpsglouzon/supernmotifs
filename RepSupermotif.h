@@ -15,7 +15,7 @@
 #include <fstream>
 
 #include "Eigen/Dense"
-
+#include "Eigen/SVD"
 //#include "RedSVD.h"
 
 using namespace std;

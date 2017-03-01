@@ -31,6 +31,8 @@ RepSupernmotif::RepSupernmotif(Eigen::ArrayXXf matALLMotifWeigthed,int nbSupNmot
 
 			//compute SVD//
             Eigen::JacobiSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU);
+            //Eigen::BDCSVD<Eigen::MatrixXf> svd(matALLMotifWeigthed.matrix(), Eigen::ComputeThinU | Eigen::ComputeThinV);
+
             singularVal=svd.singularValues();
 
             //RedSVD::RedSVD<Eigen::MatrixXf> randomizedSVD( matALLMotifWeigthed.matrix());//Resvd Test
