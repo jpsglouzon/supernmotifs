@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS=-Wall -fexceptions -O3 -std=c++0x -m64
+CFLAGS=-Wall -fexceptions -O3 -std=c++11 -m64
 
 CFLAGS_o=-s -m64 -static -static-libgcc -static-libstdc++ 
 
