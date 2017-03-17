@@ -18,7 +18,7 @@
 
 * **Compare secondary structures** by calling: 
 ```
-./path_to_supernmotifs_program/supernmotifs -i fileInDb -o folderOfResults
+/path_to_supernmotifs_program/supernmotifs -i fileInDb -o folderOfResults
 ```
 
 * The Super-n-motifs program takes as input a file of **rna secondary structures** in **dot-bracket** format (-i fileInDb):

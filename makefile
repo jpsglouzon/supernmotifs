@@ -2,7 +2,7 @@ CC = g++
 
 CFLAGS=-Wall -fexceptions -O3 -std=c++11 -m64
 
-CFLAGS_o=-s -m64 -static -static-libgcc -static-libstdc++ 
+CFLAGS_o=-s -m64
 
 supernmotifs: main.o RepMotif.o RepSupermotif.o RepWeightedMotif.o
 	$(CC) -L. -o supernmotifs main.o RepMotif.o RepSupermotif.o RepWeightedMotif.o $(CFLAGS_o)

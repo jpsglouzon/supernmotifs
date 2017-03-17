@@ -23,6 +23,7 @@
 #include "RepWeightedMotif.h"
 #include "RepSupermotif.h"
 #include "Eigen/Dense"
+#include <cstdio>
 
 using namespace std;
 
@@ -381,14 +382,7 @@ void setParameters(int argc,char* argv[],string& i_PathFileInput,string& o_PathD
                                            "Ngram parameter (-g) must be : 0, 1, 2 , 3, 4 or 5.");};
 
               break;
-            case 'h': //print help and exit the program
-                  //if (helpFile.is_open())
-                  //{
-                  //  while ( getline (helpFile,lineHelpFile) )
-                  //  { cout << lineHelpFile << '\n';}
-                  //  helpFile.close();
-                  //}
-                  //else cout << "Unable to open file"<<endl;
+            case 'h':
                   cout<< help();
 
                 exit(EXIT_SUCCESS);
@@ -519,38 +513,35 @@ void writeMatNmotifs_Supernmotifs( map<string,float> allStructureFeatureForWeigt
 /*********************************************************************************************/
 void computeNwriteMatDissimS2S(const Eigen::ArrayXXf matSuperMotif,const string o_PathDirOutput,const string filename){
 
-    ofstream outputMatMotifs;
     string tempfilename;
 
     tempfilename=o_PathDirOutput+"/"+filename;
-    outputMatMotifs.open(tempfilename.c_str());
 
-    //for (int i=0; i<matDissimS2S.rows();i++)
-    //{
-    //   for (int j=0; j<i;j++)
-    //       {outputMatMotifs<<matDissimS2S(i,j)<<",";}
-    //  outputMatMotifs<<"\n";
-    //}
+    FILE* outputMatMotifs = fopen(tempfilename.c_str(), "wb");
 
     float tempDist=0;
+
 	int n=matSuperMotif.rows();
-    Eigen::VectorXf allSquaredNorm,allNorm,vectTempi,vectTempj;
+    Eigen::VectorXf allSquaredNorm,allNorm;
 	allNorm= matSuperMotif.matrix().rowwise().norm();
-	allSquaredNorm= matSuperMotif.matrix().rowwise().squaredNorm(); //à retravaller
+	allSquaredNorm= matSuperMotif.matrix().rowwise().squaredNorm();
 
 	/*Cosine dissimilarity*/
-	for (int i=0; i<n;i++)
+	for ( int i=0; i<n;i++)
 	{
-		for (int j=0; j<i;j++)
+
+        for (int j=0; j<i;j++)
 		{
             tempDist=1-(matSuperMotif.row(i).matrix().dot(matSuperMotif.row(j).matrix())/(allNorm[i]*allNorm[j]));
 			if(tempDist<0){tempDist=0; }
-			outputMatMotifs<<tempDist<<",";
-		}
-		outputMatMotifs<<"\n";
-	}
 
-    outputMatMotifs.close();
+            fprintf(outputMatMotifs, "%f,", tempDist);
+
+		}
+
+       fprintf(outputMatMotifs, "\n");
+	}
+    fclose(outputMatMotifs);
 }
 
 /*********************************************************************************************/
